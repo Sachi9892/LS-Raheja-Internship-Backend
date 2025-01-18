@@ -1,12 +1,17 @@
 package com.ls_raheja.application_form.dto;
 
 
-import lombok.Data;
+import com.ls_raheja.application_form.entity.States;
+import lombok.*;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class AddressDto {
 
-    private String state;
+    private States state;
 
     private String city;
 

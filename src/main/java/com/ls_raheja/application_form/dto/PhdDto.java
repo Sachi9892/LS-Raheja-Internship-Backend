@@ -1,16 +1,24 @@
 package com.ls_raheja.application_form.dto;
 
-import lombok.Data;
+import com.ls_raheja.application_form.entity.PhdStatus;
+import lombok.*;
 
 import java.time.LocalDate;
 
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class PhdDto {
 
-    private String status;
+    private PhdStatus status;
+
     private String universityName;
+
     private LocalDate yearOfPassing;
+
     private int scopusIndexedPublications;
     private String scopusId;
     private boolean presentedInConference;

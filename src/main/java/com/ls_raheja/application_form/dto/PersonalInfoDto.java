@@ -1,10 +1,15 @@
 package com.ls_raheja.application_form.dto;
 
-import lombok.Data;
+import com.ls_raheja.application_form.entity.Gender;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class PersonalInfoDto {
 
     private String firstName;
@@ -12,6 +17,8 @@ public class PersonalInfoDto {
     private String lastName;
     private String email;
     private String phone;
+
     private LocalDate dob;
-    private String gender;
+
+    private Gender gender;
 }
