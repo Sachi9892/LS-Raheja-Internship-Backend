@@ -1,0 +1,15 @@
+spring:
+  info:
+    app:
+      name: LS Raheja Application Form
+      description: Application form for LS Raheja College created by Anil Sonar ( TY BSC IT )
+  application:
+    name: lsraheja-application-form
+  datasource:
+    url: jdbc:mysql://localhost:3306/lsraheja_application_form
+    username: root
+    password: 1234
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
