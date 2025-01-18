@@ -37,6 +37,7 @@ public class WorkExperience implements Serializable {
     private LocalDate fromDate;
 
     @Temporal(TemporalType.DATE)
+    @Column(nullable = true)
     private LocalDate toDate;
 
     private Double currentSalary;

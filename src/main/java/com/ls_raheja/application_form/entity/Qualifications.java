@@ -4,9 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.List;
-
 
 @Entity(name = "qualifications")
 @Data
@@ -27,10 +25,8 @@ public class Qualifications implements Serializable {
     private Applicant applicant;
 
     @ElementCollection
-    @CollectionTable(
-            name = "competitive_exams",
-            joinColumns = @JoinColumn(name = "qualification_id")
-    )
+    @CollectionTable(name = "competitive_exams", joinColumns = @JoinColumn(name = "qualification_id"))
+    @Column(nullable = true)
     private List<CompetitiveExams> competitiveExams;
 
     private String degreeName;
@@ -39,8 +35,7 @@ public class Qualifications implements Serializable {
 
     private String specialization;
 
-    @Temporal(TemporalType.DATE)
-    private LocalDate yearOfPassing;
+    private String yearOfPassing;
 
     private Double cgpa;
 }

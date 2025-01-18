@@ -23,64 +23,48 @@ public class ApplicantService {
 
     public Applicant saveApplicant(ApplicantDto applicantDto) {
 
-        //Create a new applicant, extract info from DTO and map it to entity
+         // Create a new Applicant entity
         Applicant applicant = new Applicant();
 
-        //1.Extract the Role from ApplicantDTO
+        // 1. Extract and set the Role
         applicant.setRole(applicantDto.getRole());
 
-        //2.Extract PersonalInfoDTO from ApplicantDTO
+        // 2. Extract and map Personal Info and Address
         PersonalInfoDto personalInfoDto = applicantDto.getPersonalInfo();
-
-        //Extract AddressDto from ApplicantDto
         AddressDto addressDto = applicantDto.getAddress();
-
-        //Convert AddressDTO to Address entity
         Address address = applicantMapper.toEntity(addressDto);
+        PersonalInfo personalInfo = applicantMapper.toEntity(personalInfoDto);
+        personalInfo.setAddress(address);
+        applicant.setPersonalInfo(personalInfo);
 
-        //Convert PersonalInfoDTO to PersonalInfo entity
-        PersonalInfo info = applicantMapper.toEntity(personalInfoDto);
-
-        //Set Address to PersonalInfo
-        info.setAddress(address);
-
-        //Now set PersonalInfo(with Address) to Applicant
-        applicant.setPersonalInfo(info);
-
-        //3.Extract PhdDTO from ApplicantDTO
+        // 3. Extract and map PhD details
         PhdDto phdDto = applicantDto.getPhd();
-
-        //Convert PhdDTO to Phd entity
         Phd phd = applicantMapper.toEntity(phdDto);
-
-        //Set Phd to Applicant
         applicant.setPhd(phd);
 
-        //4.Extract WorkExperienceDTO from ApplicantDTO
-        List<WorkExperienceDto> workExperienceDtos = applicantDto.getWorkExperience();
+        // 4. Extract and map Work Experience
+        WorkExperienceDto workExperienceDto = applicantDto.getWorkExperience();
 
-        //Convert WorkExperienceDTO to WorkExperience entity
-        List<WorkExperience> workExperiences = workExperienceDtos.stream()
-                .map(applicantMapper::toEntity)
-                .toList();
+        if (!workExperienceDto.isFresher()) {
 
-        //Set WorkExperience to Applicant
-        applicant.setWorkExperience(workExperiences);
+            List<WorkExperience> workExperiences = workExperienceDto.getList().stream()
+                    .map(applicantMapper::toEntity)
+                    .toList();
+            applicant.setWorkExperience(workExperiences);
+        }
 
-        //5.Extract QualificationDTO from ApplicantDTO
+        // 5. Extract and map Qualifications
         List<QualificationDto> qualificationDtos = applicantDto.getQualifications();
 
-        //Convert QualificationDTO to Qualifications entity
         List<Qualifications> qualifications = qualificationDtos.stream()
                 .map(applicantMapper::toEntity)
                 .toList();
-
-        //Set Qualifications to Applicant
         applicant.setQualifications(qualifications);
 
-        //6.Finally save the Applicant
+        // 6. Save the Applicant entity
         return applicantRepository.save(applicant);
 
 
     }
+    
 }

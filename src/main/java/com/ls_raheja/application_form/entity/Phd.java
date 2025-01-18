@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 
 
 @Entity
@@ -23,8 +22,7 @@ public class Phd implements Serializable {
 
     private String universityName;
 
-    @Temporal(TemporalType.DATE)
-    private LocalDate yearOfPassing;
+    private String yearOfPassing;
 
     private int scopusIndexedPublications;
 

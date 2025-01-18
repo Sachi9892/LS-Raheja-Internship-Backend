@@ -2,7 +2,6 @@ package com.ls_raheja.application_form.dto;
 
 import lombok.*;
 
-import java.time.LocalDate;
 
 
 @Data
@@ -16,6 +15,6 @@ public class CompetitiveExamsDto {
 
     private boolean isAppeared;
 
-    private LocalDate yearOfPassing;
+    private String yearOfPassing;
 
 }

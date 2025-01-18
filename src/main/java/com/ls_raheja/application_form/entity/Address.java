@@ -8,9 +8,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 
-
 @Embeddable
-@Builder
 @Data
 public class Address implements Serializable {
 
@@ -20,4 +18,15 @@ public class Address implements Serializable {
     private String city;
 
     private String pinCode;
+
+    public Address() {
+    }
+
+    // Constructor with parameters
+    public Address(States state, String city, String pinCode) {
+        this.state = state;
+        this.city = city;
+        this.pinCode = pinCode;
+    }
+    
 }

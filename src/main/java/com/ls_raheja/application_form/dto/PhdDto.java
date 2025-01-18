@@ -3,7 +3,6 @@ package com.ls_raheja.application_form.dto;
 import com.ls_raheja.application_form.entity.PhdStatus;
 import lombok.*;
 
-import java.time.LocalDate;
 
 
 @Data
@@ -17,7 +16,7 @@ public class PhdDto {
 
     private String universityName;
 
-    private LocalDate yearOfPassing;
+    private String yearOfPassing;
 
     private int scopusIndexedPublications;
     private String scopusId;

@@ -12,13 +12,14 @@ public interface ApplicantMapper {
     PersonalInfo toEntity(PersonalInfoDto personalInfoDTO);
     Address toEntity(AddressDto addressDTO);
     Qualifications toEntity(QualificationDto qualificationsDTO);
-    WorkExperience toEntity(WorkExperienceDto workExperienceDTO);
+    WorkExperience toEntity(WorkExperienceDetailDto workExperienceDTO);
     Phd toEntity(PhdDto phdDTO);
+    
 
-    PersonalInfoDto toDto(PersonalInfo personalInfo);
-    AddressDto toDto(Address address);
-    QualificationDto toDto(Qualifications qualifications);
-    WorkExperienceDto toDto(WorkExperience workExperience);
-    PhdDto toDto(Phd phd);
+    // PersonalInfoDto toDto(PersonalInfo personalInfo);
+    // AddressDto toDto(Address address);
+    // QualificationDto toDto(Qualifications qualifications);
+    // WorkExperienceDto toDto(WorkExperience workExperience);
+    // PhdDto toDto(Phd phd);
 
 }

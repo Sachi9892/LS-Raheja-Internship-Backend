@@ -5,14 +5,12 @@ import lombok.*;
 
 import java.util.List;
 
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 public class ApplicantDto {
-
 
     private JobRoles role;
 
@@ -22,7 +20,7 @@ public class ApplicantDto {
 
     private List<QualificationDto> qualifications;
 
-    private List<WorkExperienceDto> workExperience;
+    private WorkExperienceDto workExperience;
 
     private PhdDto phd;
 }
