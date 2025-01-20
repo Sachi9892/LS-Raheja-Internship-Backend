@@ -20,6 +20,9 @@ public class PersonalInfo implements Serializable {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
+    @Enumerated(EnumType.STRING)
+    private JobRoles role;
+
     @Embedded
     private Address address;
 

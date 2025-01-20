@@ -28,7 +28,7 @@ public class WorkExperience implements Serializable {
 
     private Boolean isFresher;
 
-    @Column(nullable = true)
+    @Column(name = "org_name" , nullable = true)
     private String organizationName;
 
     @Column(name = "is_working", nullable = true)
@@ -45,7 +45,7 @@ public class WorkExperience implements Serializable {
     @Temporal(TemporalType.DATE)
     private LocalDate toDate;
 
-    @Column(nullable = true)
+    @Column(name = "Salary", nullable = true)
     private Double currentSalary;
 
 }

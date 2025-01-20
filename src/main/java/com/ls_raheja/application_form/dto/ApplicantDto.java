@@ -1,6 +1,5 @@
 package com.ls_raheja.application_form.dto;
 
-import com.ls_raheja.application_form.entity.JobRoles;
 import lombok.*;
 
 import java.util.List;
@@ -11,8 +10,6 @@ import java.util.List;
 @Getter
 @Setter
 public class ApplicantDto {
-
-    private JobRoles role;
 
     private PersonalInfoDto personalInfo;
 

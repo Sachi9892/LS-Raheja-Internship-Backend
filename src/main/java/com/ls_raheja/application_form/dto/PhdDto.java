@@ -20,7 +20,7 @@ public class PhdDto {
 
     private int scopusIndexedPublications;
     private String scopusId;
-    private boolean presentedInConference;
+    private Boolean presentedInConference;
     private int wosIndexedPublications;
     private String wosId;
 }

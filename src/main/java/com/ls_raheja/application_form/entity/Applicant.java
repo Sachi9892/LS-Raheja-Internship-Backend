@@ -21,9 +21,6 @@ public class Applicant implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long applicantId;
 
-    @Enumerated(EnumType.STRING)
-    private JobRoles role;
-
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "info_id", referencedColumnName = "infoId")

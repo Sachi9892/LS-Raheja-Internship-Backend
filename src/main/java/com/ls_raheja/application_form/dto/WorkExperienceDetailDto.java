@@ -11,7 +11,7 @@ public class WorkExperienceDetailDto {
 
     private String organizationName;
     private String jobTitle;
-    private boolean isCurrentlyWorking;
+    private Boolean isCurrentlyWorking;
     private LocalDate fromDate;
     private LocalDate toDate;
     private String currentSalary;

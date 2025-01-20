@@ -7,7 +7,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import lombok.Builder;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -15,9 +14,12 @@ import java.io.Serializable;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
-@Builder
 @Data
 public class CompetitiveExams implements Serializable {
+
+    public CompetitiveExams() {
+        
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,7 +29,7 @@ public class CompetitiveExams implements Serializable {
     private String examName; // Example: NET, SET, GATE
 
     @Column(nullable = true)
-    private boolean isAppeared; // Whether the applicant appeared for the exam
+    private Boolean isAppeared; // Whether the applicant appeared for the exam
 
     @Column(nullable = true)
     private String yearOfPassing;

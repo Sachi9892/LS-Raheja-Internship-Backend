@@ -1,6 +1,7 @@
 package com.ls_raheja.application_form.dto;
 
 import com.ls_raheja.application_form.entity.Gender;
+import com.ls_raheja.application_form.entity.JobRoles;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 @Setter
 public class PersonalInfoDto {
 
+    private JobRoles role;
     private String firstName;
     private String middleName;
     private String lastName;

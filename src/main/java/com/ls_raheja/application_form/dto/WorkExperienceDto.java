@@ -13,7 +13,7 @@ import java.util.List;
 @Setter
 public class WorkExperienceDto {
 
-    private boolean isFresher;
+    private Boolean isFresher;
     private List<WorkExperienceDetailDto> list;
 
 }
