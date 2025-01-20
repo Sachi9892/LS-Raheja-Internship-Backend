@@ -20,7 +20,10 @@ public class ApplicantDto {
 
     private List<QualificationDto> qualifications;
 
+    private List<CompetitiveExamsDto> competitiveExams;
+
     private WorkExperienceDto workExperience;
 
     private PhdDto phd;
+
 }

@@ -17,4 +17,6 @@ public class CompetitiveExamsDto {
 
     private String yearOfPassing;
 
+    
+
 }

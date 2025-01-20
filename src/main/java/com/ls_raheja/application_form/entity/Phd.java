@@ -20,17 +20,24 @@ public class Phd implements Serializable {
     @OneToOne(mappedBy = "phd")
     private Applicant applicant;
 
+    @Column(nullable = true)
     private String universityName;
 
+    @Column(nullable = true)
     private String yearOfPassing;
 
+    @Column(name = "scopus" , nullable = true)
     private int scopusIndexedPublications;
 
+    @Column(nullable = true)
     private String scopusId;
 
+    @Column(nullable = true)
     private boolean presentedInConference;
 
+    @Column(name = "wos" , nullable = true)
     private int wosIndexedPublications;
 
+    @Column(nullable = true)
     private String wosId;
 }

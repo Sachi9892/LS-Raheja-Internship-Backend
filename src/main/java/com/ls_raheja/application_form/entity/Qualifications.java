@@ -4,7 +4,10 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+
 
 @Entity(name = "qualifications")
 @Data
@@ -22,12 +25,8 @@ public class Qualifications implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "applicant_id", referencedColumnName = "applicantId")
+    @JsonBackReference
     private Applicant applicant;
-
-    @ElementCollection
-    @CollectionTable(name = "competitive_exams", joinColumns = @JoinColumn(name = "qualification_id"))
-    @Column(nullable = true)
-    private List<CompetitiveExams> competitiveExams;
 
     private String degreeName;
 
@@ -38,4 +37,5 @@ public class Qualifications implements Serializable {
     private String yearOfPassing;
 
     private Double cgpa;
+
 }

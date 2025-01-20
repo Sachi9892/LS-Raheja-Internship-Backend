@@ -5,9 +5,6 @@ import com.ls_raheja.application_form.entity.EducationMode;
 import lombok.*;
 
 
-import java.util.List;
-
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,6 +21,5 @@ public class QualificationDto {
     private String yearOfPassing;
     private Double cgpa;
 
-    private List<CompetitiveExamsDto> competitiveExams;
 
 }

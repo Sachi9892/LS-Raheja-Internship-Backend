@@ -8,6 +8,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -40,30 +41,47 @@ public class ApplicantService {
         // 3. Extract and map PhD details
         PhdDto phdDto = applicantDto.getPhd();
         Phd phd = applicantMapper.toEntity(phdDto);
+        
         applicant.setPhd(phd);
 
-        // 4. Extract and map Work Experience
-        WorkExperienceDto workExperienceDto = applicantDto.getWorkExperience();
-
-        if (!workExperienceDto.isFresher()) {
-
-            List<WorkExperience> workExperiences = workExperienceDto.getList().stream()
-                    .map(applicantMapper::toEntity)
-                    .toList();
-            applicant.setWorkExperience(workExperiences);
-        }
+    // 4. Extract and map Work Experience
+    WorkExperienceDto workExperienceDto = applicantDto.getWorkExperience();
+    if (workExperienceDto != null) {
+        List<WorkExperience> workExperiences = workExperienceDto.getList().stream()
+            .map(workExperience -> {
+                WorkExperience entity = applicantMapper.toEntity(workExperience);
+                entity.setIsFresher(workExperience.isCurrentlyWorking() ? false : false); // Explicitly set boolean values
+                entity.setIsCurrentlyWorking(workExperience.isCurrentlyWorking() ? true : false);
+                entity.setApplicant(applicant);
+                return entity;
+            })
+            .collect(Collectors.toList());
+        applicant.setWorkExperience(workExperiences);
+    }
 
         // 5. Extract and map Qualifications
         List<QualificationDto> qualificationDtos = applicantDto.getQualifications();
-
         List<Qualifications> qualifications = qualificationDtos.stream()
-                .map(applicantMapper::toEntity)
+                .map(dto -> {
+                    Qualifications qualification = applicantMapper.toEntity(dto);
+                    qualification.setApplicant(applicant);
+                    return qualification;
+                })
                 .toList();
         applicant.setQualifications(qualifications);
 
-        // 6. Save the Applicant entity
-        return applicantRepository.save(applicant);
 
+        //6. Extract Competitive Exams details
+        List<CompetitiveExamsDto> competitiveExamsDtos = applicantDto.getCompetitiveExams();
+        List<CompetitiveExams> competitiveExams = competitiveExamsDtos.stream()
+                .map(applicantMapper::toEntity)
+                .peek(exam -> exam.setApplicant(applicant)) // Set reverse reference
+                .toList();
+        applicant.setCompetitiveExams(competitiveExams);
+
+
+        // 7. Save the Applicant entity
+        return applicantRepository.save(applicant);
 
     }
     

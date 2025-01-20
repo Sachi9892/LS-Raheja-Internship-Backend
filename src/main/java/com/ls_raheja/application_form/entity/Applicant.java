@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity(name = "Applicant")
 @Data
 @Getter
@@ -22,6 +24,7 @@ public class Applicant implements Serializable {
     @Enumerated(EnumType.STRING)
     private JobRoles role;
 
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "info_id", referencedColumnName = "infoId")
     private PersonalInfo personalInfo;
@@ -29,12 +32,20 @@ public class Applicant implements Serializable {
 
     // One Applicant can have multiple Qualifications
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "applicant", orphanRemoval = true)
+    @JsonManagedReference
     private List<Qualifications> qualifications = new ArrayList<>();
 
 
     // One Applicant can have multiple Work Experiences
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "applicant", orphanRemoval = true)
+    @JsonManagedReference
     private List<WorkExperience> workExperience = new ArrayList<>();
+
+
+    // One Applicant may have appeared multiple exams
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "applicant", orphanRemoval = true)
+    @JsonManagedReference
+    private List<CompetitiveExams> competitiveExams = new ArrayList<>();
 
 
     @OneToOne(cascade = CascadeType.ALL)

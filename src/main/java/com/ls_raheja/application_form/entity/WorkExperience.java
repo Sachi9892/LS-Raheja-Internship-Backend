@@ -6,6 +6,7 @@ import lombok.Data;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity(name = "work_experience")
 @Data
@@ -13,32 +14,38 @@ public class WorkExperience implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "exp_id")
     private Long experienceId;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = true)
     private NoticePeriod noticePeriod;
-
-    @Enumerated(EnumType.STRING)
-    private JobType jobType;
 
     @ManyToOne
     @JoinColumn(name = "applicant_id", referencedColumnName = "applicantId")
+    @JsonBackReference
     private Applicant applicant;
 
-    private boolean isFresher;
+    private Boolean isFresher;
 
+    @Column(nullable = true)
     private String organizationName;
 
-    private boolean isCurrentlyWorking;
+    @Column(name = "is_working", nullable = true)
+    private Boolean isCurrentlyWorking;
 
+    @Column(nullable = true)
     private String jobTitle;
 
+    @Column(nullable = true)
     @Temporal(TemporalType.DATE)
     private LocalDate fromDate;
 
-    @Temporal(TemporalType.DATE)
     @Column(nullable = true)
+    @Temporal(TemporalType.DATE)
     private LocalDate toDate;
 
+    @Column(nullable = true)
     private Double currentSalary;
+
 }
