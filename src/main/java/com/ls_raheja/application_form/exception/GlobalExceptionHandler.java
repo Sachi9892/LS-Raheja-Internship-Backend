@@ -21,7 +21,7 @@ import com.ls_raheja.application_form.dto.ErrorResponseDto;
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @SuppressWarnings("null")
+    
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex,

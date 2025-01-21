@@ -49,4 +49,7 @@ public class Applicant implements Serializable {
     @JoinColumn(name = "phd_id", referencedColumnName = "pdhId")
     private Phd phd;
 
+
+    private String resumeFileName;
+
 }
