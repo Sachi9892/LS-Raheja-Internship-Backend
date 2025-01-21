@@ -1,8 +1,8 @@
 spring:
-  info:
-    app:
-      name: LS Raheja Application Form
-      description: Application form for LS Raheja College created by Anil Sonar ( TY BSC IT )
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
   application:
     name: lsraheja-application-form
   datasource:

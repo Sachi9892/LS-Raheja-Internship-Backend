@@ -32,8 +32,8 @@ public class Phd implements Serializable {
     @Column(nullable = true)
     private String scopusId;
 
-    @Column(nullable = true)
-    private boolean presentedInConference;
+    @Column(nullable = true , columnDefinition = "BOOLEAN")
+    private Boolean presentedInConference;
 
     @Column(name = "wos" , nullable = true)
     private int wosIndexedPublications;

@@ -26,12 +26,13 @@ public class WorkExperience implements Serializable {
     @JsonBackReference
     private Applicant applicant;
 
+    @Column(columnDefinition = "BOOLEAN")
     private Boolean isFresher;
 
-    @Column(name = "org_name" , nullable = true)
+    @Column(name = "org_name", nullable = true)
     private String organizationName;
 
-    @Column(name = "is_working", nullable = true)
+    @Column(name = "is_working", nullable = true, columnDefinition = "BOOLEAN")
     private Boolean isCurrentlyWorking;
 
     @Column(nullable = true)
