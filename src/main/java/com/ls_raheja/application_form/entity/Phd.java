@@ -24,7 +24,7 @@ public class Phd implements Serializable {
     private String universityName;
 
     @Column(nullable = true)
-    private String yearOfPassing;
+    private int yearOfPassing;
 
     @Column(name = "scopus" , nullable = true)
     private int scopusIndexedPublications;

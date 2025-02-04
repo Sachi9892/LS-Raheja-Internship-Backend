@@ -13,6 +13,6 @@ public class CompetitiveExamsDto {
 
     private Boolean isAppeared;
 
-    private String yearOfPassing;
+    private int yearOfPassing;
 
 }

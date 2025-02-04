@@ -34,7 +34,7 @@ public class Qualifications implements Serializable {
 
     private String specialization;
 
-    private String yearOfPassing;
+    private int yearOfPassing;
 
     private Double cgpa;
 

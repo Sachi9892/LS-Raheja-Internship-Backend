@@ -78,7 +78,7 @@ public class ApplicantService {
                         CompetitiveExams exam = new CompetitiveExams();
                         exam.setExamName(examDto.getExamName());
                         exam.setIsAppeared(examDto.getIsAppeared());
-                        exam.setYearOfPassing(examDto.getYearOfPassing());
+                        exam.setYearOfPassing(examDto.getYearOfPassing());;
                         exam.setApplicant(applicant);
                         return exam;
                     }).toList();

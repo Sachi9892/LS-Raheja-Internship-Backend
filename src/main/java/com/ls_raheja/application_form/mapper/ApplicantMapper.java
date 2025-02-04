@@ -15,12 +15,5 @@ public interface ApplicantMapper {
     WorkExperience toEntity(WorkExperienceDetailDto workExperienceDTO);
     Phd toEntity(PhdDto phdDTO);
     CompetitiveExams toEntity(CompetitiveExamsDto competitiveExamsDto);
-    
-
-    // PersonalInfoDto toDto(PersonalInfo personalInfo);
-    // AddressDto toDto(Address address);
-    // QualificationDto toDto(Qualifications qualifications);
-    // WorkExperienceDto toDto(WorkExperience workExperience);
-    // PhdDto toDto(Phd phd);
 
 }

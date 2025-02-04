@@ -1,5 +1,6 @@
 package com.ls_raheja.application_form.entity;
 
+
 public enum States {
 
     Andhra_Pradesh,
@@ -38,5 +39,8 @@ public enum States {
     Delhi,
     Lakshadweep,
     Puducherry,
+
+
+    
 
 }

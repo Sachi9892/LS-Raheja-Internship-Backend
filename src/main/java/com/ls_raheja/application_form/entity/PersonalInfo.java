@@ -1,8 +1,10 @@
 package com.ls_raheja.application_form.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -11,6 +13,8 @@ import java.time.LocalDate;
 @Entity(name = "personal_info")
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PersonalInfo implements Serializable {
 
     @Id
@@ -38,4 +42,6 @@ public class PersonalInfo implements Serializable {
 
     @Temporal(TemporalType.DATE)
     private LocalDate dob;
+
+    
 }

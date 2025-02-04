@@ -18,7 +18,7 @@ public class QualificationDto {
     private String degreeName;
     private String universityName;
     private String specialization;
-    private String yearOfPassing;
+    private int yearOfPassing;
     private Double cgpa;
 
 

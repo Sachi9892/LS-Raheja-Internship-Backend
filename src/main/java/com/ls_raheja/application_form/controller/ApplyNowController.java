@@ -6,7 +6,6 @@ import com.ls_raheja.application_form.repository.ApplicantRepository;
 import com.ls_raheja.application_form.service.ApplicantService;
 import com.ls_raheja.application_form.service.FileUploadService;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -23,21 +22,26 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
-@RequestMapping("/lsraheja/apply-now")
+@RequestMapping("/lsraheja")
 @CrossOrigin("*")
 @Slf4j
-@AllArgsConstructor
 public class ApplyNowController {
 
     private final ApplicantService applicantService;
     private final FileUploadService fileUploadService;
     private final ApplicantRepository applicantRepository;
 
- 
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ApplyNowController(ApplicantService applicantService, FileUploadService fileUploadService,
+            ApplicantRepository applicantRepository) {
+        this.applicantService = applicantService;
+        this.fileUploadService = fileUploadService;
+        this.applicantRepository = applicantRepository;
+    }
+
+    @PostMapping(value = "/apply-now", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     public ResponseEntity<Applicant> applyNow(
-        @RequestPart("applicant") ApplicantDto applicantDto,
-        @RequestPart("resume") MultipartFile resumeFile) throws IllegalStateException, IOException {
+            @RequestPart("applicant") ApplicantDto applicantDto,
+            @RequestPart("resume") MultipartFile resumeFile)  {
 
         log.info("From front end : {}", applicantDto);
 
@@ -48,15 +52,23 @@ public class ApplyNowController {
 
             // Save applicant data
             Applicant newApplicant = applicantService.saveApplicant(applicantDto);
-            newApplicant.setResumeFileName(fileName);
+            newApplicant.setResumeFileLocation(fileName);
             applicantRepository.save(newApplicant);
 
             // Return response
             return ResponseEntity.status(HttpStatus.CREATED).body(newApplicant);
         } catch (FileUploadException e) {
             log.error("Error uploading file: {}", e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+            
+        } catch (IllegalStateException e) {
+                    log.info("Illegal wala", e);
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    log.info("I o wala");
+                    e.printStackTrace();
+                }
+
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
 
 }

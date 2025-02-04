@@ -16,7 +16,7 @@ public class PhdDto {
 
     private String universityName;
 
-    private String yearOfPassing;
+    private int yearOfPassing;
 
     private int scopusIndexedPublications;
     private String scopusId;
