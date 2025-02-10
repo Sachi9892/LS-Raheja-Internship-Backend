@@ -7,8 +7,6 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-
-
 @Entity(name = "qualifications")
 @Data
 public class Qualifications implements Serializable {
@@ -34,7 +32,7 @@ public class Qualifications implements Serializable {
 
     private String specialization;
 
-    private int yearOfPassing;
+    private Integer yearOfPassing;
 
     private Double cgpa;
 

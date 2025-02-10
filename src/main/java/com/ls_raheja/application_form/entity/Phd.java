@@ -24,10 +24,10 @@ public class Phd implements Serializable {
     private String universityName;
 
     @Column(nullable = true)
-    private int yearOfPassing;
+    private Integer yearOfPassing;
 
     @Column(name = "scopus" , nullable = true)
-    private int scopusIndexedPublications;
+    private Integer scopusIndexedPublications;
 
     @Column(nullable = true)
     private String scopusId;
@@ -36,7 +36,7 @@ public class Phd implements Serializable {
     private Boolean presentedInConference;
 
     @Column(name = "wos" , nullable = true)
-    private int wosIndexedPublications;
+    private Integer wosIndexedPublications;
 
     @Column(nullable = true)
     private String wosId;

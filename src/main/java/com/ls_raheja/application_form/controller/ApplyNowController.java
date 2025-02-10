@@ -6,69 +6,67 @@ import com.ls_raheja.application_form.repository.ApplicantRepository;
 import com.ls_raheja.application_form.service.ApplicantService;
 import com.ls_raheja.application_form.service.FileUploadService;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.IOException;
 
-import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
-@RequestMapping("/lsraheja")
 @CrossOrigin("*")
 @Slf4j
+@AllArgsConstructor
 public class ApplyNowController {
 
-    private final ApplicantService applicantService;
     private final FileUploadService fileUploadService;
     private final ApplicantRepository applicantRepository;
+    private final ApplicantService applicantService;
 
-    public ApplyNowController(ApplicantService applicantService, FileUploadService fileUploadService,
-            ApplicantRepository applicantRepository) {
-        this.applicantService = applicantService;
-        this.fileUploadService = fileUploadService;
-        this.applicantRepository = applicantRepository;
-    }
-
-    @PostMapping(value = "/apply-now", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-    public ResponseEntity<Applicant> applyNow(
+    @PostMapping(value = "lsraheja/apply-now", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public ResponseEntity<?> applyNow(
             @RequestPart("applicant") ApplicantDto applicantDto,
-            @RequestPart("resume") MultipartFile resumeFile)  {
+            @RequestPart("resume") MultipartFile resumeFile) {
 
-        log.info("From front end : {}", applicantDto);
+        log.info("Received application: {}", applicantDto);
 
         try {
-            // Save the file and get the file name
-            String fileName = fileUploadService.uploadFile(resumeFile);
-            log.info("Resume file name {} ", fileName);
-
-            // Save applicant data
+            // Save the applicant data first
+            log.info("Saving applicant data: {}", applicantDto);
             Applicant newApplicant = applicantService.saveApplicant(applicantDto);
-            newApplicant.setResumeFileLocation(fileName);
+            log.info("Applicant saved successfully with ID: {}", newApplicant.getApplicantId());
+
+            // If resume is provided, upload and store file location
+            if (resumeFile != null && !resumeFile.isEmpty()) {
+                log.info("Uploading resume file: {}", resumeFile.getOriginalFilename());
+                String fileName = fileUploadService.uploadFile(resumeFile);
+                log.info("Resume uploaded to: {}", fileName);
+
+                newApplicant.setResumeFileLocation(fileName);
+            } else {
+                log.warn("No resume file provided.");
+            }
+
+            // Save the applicant with resume file location
+            log.info("Saving applicant with resume file location...");
             applicantRepository.save(newApplicant);
+            log.info("Application process completed.");
 
-            // Return response
-            return ResponseEntity.status(HttpStatus.CREATED).body(newApplicant);
-        } catch (FileUploadException e) {
-            log.error("Error uploading file: {}", e.getMessage());
-            
-        } catch (IllegalStateException e) {
-                    log.info("Illegal wala", e);
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    log.info("I o wala");
-                    e.printStackTrace();
-                }
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(newApplicant);
 
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        } catch (Exception e) {
+            log.error("Unexpected error: {}", e.getClass().getName(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Unexpected error occurred: " + e.getClass().getName());
+        }
+
     }
 
 }

@@ -22,6 +22,7 @@ public class WorkExperienceDetailDto {
 
     private String currentSalary;
     
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private NoticePeriod noticePeriod;
 
 }

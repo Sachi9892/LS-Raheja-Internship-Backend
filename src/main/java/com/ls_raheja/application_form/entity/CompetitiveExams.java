@@ -31,7 +31,7 @@ public class CompetitiveExams implements Serializable {
     private Boolean isAppeared; // Whether the applicant appeared for the exam
 
     @Column(nullable = true)
-    private int yearOfPassing;
+    private Integer yearOfPassing;
 
     @ManyToOne
     @JoinColumn(name = "applicant_id", referencedColumnName = "applicantId")

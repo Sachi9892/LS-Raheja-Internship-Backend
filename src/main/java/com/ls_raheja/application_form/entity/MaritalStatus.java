@@ -2,5 +2,5 @@ package com.ls_raheja.application_form.entity;
 
 public enum MaritalStatus {
 
-    MARRIED , UNMARRIED , DIVORCED , WIDOWED , SEPARATED
+    MARRIED, UNMARRIED, DIVORCED, WIDOWED, SEPARATED
 }

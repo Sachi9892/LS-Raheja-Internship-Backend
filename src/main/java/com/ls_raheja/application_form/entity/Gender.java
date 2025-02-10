@@ -2,5 +2,5 @@ package com.ls_raheja.application_form.entity;
 
 public enum Gender {
 
-    MALE , FEMALE
+    MALE, FEMALE
 }

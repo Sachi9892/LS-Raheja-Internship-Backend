@@ -4,13 +4,16 @@ import com.ls_raheja.application_form.dto.*;
 import com.ls_raheja.application_form.entity.*;
 import com.ls_raheja.application_form.mapper.ApplicantMapper;
 import com.ls_raheja.application_form.repository.ApplicantRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+
 import java.util.List;
+import java.util.stream.Collectors;
+
+
+
 
 @Service
-@Transactional
 public class ApplicantService {
 
     private final ApplicantRepository applicantRepository;
@@ -36,13 +39,17 @@ public class ApplicantService {
 
         personalInfo.setRole(personalInfoDto.getRole());
         personalInfo.setAddress(address);
+        personalInfo.setApplicant(applicant);
         applicant.setPersonalInfo(personalInfo);
+
+    
 
         // 3. Extract and map PhD details
         PhdDto phdDto = applicantDto.getPhd();
         Phd phd = applicantMapper.toEntity(phdDto);
 
         phd.setPresentedInConference(phdDto.getPresentedInConference());
+        phd.setApplicant(applicant);
         applicant.setPhd(phd);
 
         // 4. Extract and map Work Experience
@@ -60,7 +67,7 @@ public class ApplicantService {
                         entity.setApplicant(applicant);
                         return entity;
                     })
-                    .toList();
+                     .collect(Collectors.toList());
             applicant.setWorkExperience(workExperiences);
         }
 
@@ -81,7 +88,8 @@ public class ApplicantService {
                         exam.setYearOfPassing(examDto.getYearOfPassing());;
                         exam.setApplicant(applicant);
                         return exam;
-                    }).toList();
+                    })
+                    .collect(Collectors.toList());;
 
             applicant.setCompetitiveExams(competitiveExamsEntities);
         }
@@ -94,7 +102,7 @@ public class ApplicantService {
                     qualification.setApplicant(applicant);
                     return qualification;
                 })
-                .toList();
+                .collect(Collectors.toList());;
         applicant.setQualifications(qualifications);
 
         // 7. Save the Applicant entity

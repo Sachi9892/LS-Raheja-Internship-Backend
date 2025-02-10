@@ -14,6 +14,7 @@ import java.time.LocalDate;
 @Setter
 public class PersonalInfoDto {
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private JobRoles role;
 
     private String firstName;
@@ -25,5 +26,6 @@ public class PersonalInfoDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dob;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Gender gender;
 }

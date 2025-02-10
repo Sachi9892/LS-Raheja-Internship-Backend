@@ -9,10 +9,14 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ls_raheja.application_form.constants.AppConstants;
 import com.ls_raheja.application_form.exception.FileUploadExcpetion;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class FileUploadService {
 
 
+    @SuppressWarnings("null")
     public String uploadFile(MultipartFile file) throws IllegalStateException, IOException {
 
         // Validate file type
@@ -25,18 +29,23 @@ public class FileUploadService {
             throw new FileUploadExcpetion("File size exceeds the maximum limit of 5 MB.");
         }
 
-        // Ensure upload directory exists
+        // Ensure the parent directory (Resumes) exists
         File uploadDir = new File(AppConstants.UPLOAD_DIR);
-        if (!uploadDir.exists()) {
-            uploadDir.mkdirs();
+        if (!uploadDir.exists() && !uploadDir.mkdirs()) {
+            throw new IOException("Failed to create directory: " + AppConstants.UPLOAD_DIR);
         }
 
-        // Save file
-        String filePath = AppConstants.UPLOAD_DIR + file.getOriginalFilename();
+        // Generate a unique file name to prevent overwriting
+        String fileName = file.getOriginalFilename();
+        String filePath = AppConstants.UPLOAD_DIR + File.separator + fileName;
+
+        log.info("Saving file to: {}", filePath);
+
+        // Save the file
         File dest = new File(filePath);
         file.transferTo(dest);
 
-        return filePath;
+        return filePath; // Returning the stored file path
 
     }
 

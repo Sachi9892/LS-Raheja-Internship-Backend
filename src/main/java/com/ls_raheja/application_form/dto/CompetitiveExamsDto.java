@@ -12,7 +12,7 @@ public class CompetitiveExamsDto {
     private String examName;
 
     private Boolean isAppeared;
-
-    private int yearOfPassing;
+    
+    private Integer yearOfPassing;
 
 }
