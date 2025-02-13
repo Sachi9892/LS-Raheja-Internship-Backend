@@ -1,77 +1,88 @@
 package com.ls_raheja.application_form.service;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-
 
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
+import com.ls_raheja.application_form.dto.AddressDto;
+import com.ls_raheja.application_form.dto.ApplicantDto;
+import com.ls_raheja.application_form.dto.CompetitiveExamsDto;
+import com.ls_raheja.application_form.dto.PersonalInfoDto;
+import com.ls_raheja.application_form.dto.PhdDto;
+import com.ls_raheja.application_form.dto.QualificationDto;
+import com.ls_raheja.application_form.dto.WorkExperienceDetailDto;
+import com.ls_raheja.application_form.dto.WorkExperienceDto;
 
 public class PDFGenerateService {
 
-    
-    @SuppressWarnings("unchecked")
-    public static void generatePDF(Map<String, Object> formData, String filePath) throws IOException {
-        
-        PdfWriter writer = new PdfWriter(filePath);
-        PdfDocument pdf = new PdfDocument(writer);
-        Document document = new Document(pdf);
+    public static void generatePDF(ApplicantDto applicant, String filePath) throws IOException {
 
-        Document title = document.add(new Paragraph("L S Raheja Application Form"));
-        title.setFontSize(14);
+    PdfWriter writer = new PdfWriter(filePath);
+    PdfDocument pdf = new PdfDocument(writer);
+    Document document = new Document(pdf);
 
-        // Personal Information
-        Map<String, String> personalInfo = (Map<String, String>) formData.get("personalInfo");
-        if (personalInfo != null) {
-            document.add(new Paragraph("Personal Information").setFontSize(14));
-            document.add(new Paragraph("Name: " + personalInfo.get("firstName") + " " + personalInfo.get("middleName")
-                    + " " + personalInfo.get("lastName")));
-            document.add(new Paragraph("Email: " + personalInfo.get("email")));
-            document.add(new Paragraph("Phone: " + personalInfo.get("phone")));
-            document.add(new Paragraph("DOB: " + personalInfo.get("dob")));
-            document.add(new Paragraph("Gender: " + personalInfo.get("gender")));
+    document.add(new Paragraph("L S Raheja Application Form").setFontSize(14));
+
+    // 🔹 Personal Information
+    PersonalInfoDto personalInfo = applicant.getPersonalInfo();
+    document.add(new Paragraph("Personal Information:"));
+    document.add(new Paragraph("Name: " + personalInfo.getFirstName() + " " + personalInfo.getMiddleName() + " " + personalInfo.getLastName()));
+    document.add(new Paragraph("Email: " + personalInfo.getEmail()));
+    document.add(new Paragraph("Phone: " + personalInfo.getPhone()));
+    document.add(new Paragraph("DOB: " + personalInfo.getDob()));
+    document.add(new Paragraph("Gender: " + personalInfo.getGender()));
+
+    // 🔹 Address
+    AddressDto address = applicant.getAddress();
+    document.add(new Paragraph("Address:"));
+    document.add(new Paragraph("State: " + address.getState()));
+    document.add(new Paragraph("City: " + address.getCity()));
+    document.add(new Paragraph("Pin Code: " + address.getPinCode()));
+
+    // 🔹 Qualifications
+    document.add(new Paragraph("Qualifications:"));
+    for (QualificationDto qualification : applicant.getQualifications()) {
+        document.add(new Paragraph(qualification.getDegree() + " in " + qualification.getDegreeName() + 
+            " from " + qualification.getUniversityName() + " (" + qualification.getYearOfPassing() + ")"));
+    }
+
+    // 🔹 Competitive Exams
+    document.add(new Paragraph("Competitive Exams:"));
+    for (CompetitiveExamsDto exam : applicant.getCompetitiveExams()) {
+        document.add(new Paragraph(exam.getExamName() + " - Appeared: " + exam.getIsAppeared() + 
+            (exam.getYearOfPassing() != null ? ", Year: " + exam.getYearOfPassing() : "")));
+    }
+
+    // 🔹 Work Experience
+    WorkExperienceDto workExperience = applicant.getWorkExperience();
+    document.add(new Paragraph("Work Experience:"));
+    if (workExperience.getIsFresher()) {
+        document.add(new Paragraph("Fresher"));
+    } else {
+        for (WorkExperienceDetailDto work : workExperience.getList()) {
+            document.add(new Paragraph(work.getJobTitle() + " at " + work.getOrganizationName() + 
+                " (" + work.getFromDate() + " - " + (work.getToDate() != null ? work.getToDate() : "Present") + ")"));
         }
+    }
 
-        // Address
-        Map<String, String> address = (Map<String, String>) formData.get("address");
-        if (address != null) {
-            document.add(new Paragraph("\nAddress").setFontSize(14));
-            document.add(new Paragraph("State: " + address.get("state") + ", City: " + address.get("city")
-                    + ", Pin Code: " + address.get("pinCode")));
-        }
-
-        // Qualifications
-        List<Map<String, String>> qualifications = (List<Map<String, String>>) formData.get("qualifications");
-        if (qualifications != null && !qualifications.isEmpty()) {
-            document.add(new Paragraph("\nQualifications").setFontSize(14));
-            for (Map<String, String> qualification : qualifications) {
-                document.add(new Paragraph("Degree: " + qualification.get("degree") + ", University: "
-                        + qualification.get("universityName")));
-                document.add(new Paragraph("Specialization: " + qualification.get("specialization") + ", Year: "
-                        + qualification.get("yearOfPassing")));
-            }
-        }
-
-        // Work Experience
-        Map<String, Object> workExperience = (Map<String, Object>) formData.get("workExperience");
-        if (workExperience != null) {
-            List<Map<String, String>> workList = (List<Map<String, String>>) workExperience.get("list");
-            if (workList != null && !workList.isEmpty()) {
-                document.add(new Paragraph("\nWork Experience").setFontSize(14));
-                for (Map<String, String> work : workList) {
-                    document.add(new Paragraph(
-                            "Company: " + work.get("organizationName") + ", Job Title: " + work.get("jobTitle")));
-                    document.add(new Paragraph("From: " + work.get("fromDate") + " To: " + work.get("toDate")));
-                }
-            }
-        }
+    // 🔹 PhD Information
+    PhdDto phd = applicant.getPhd();
+    if (phd != null) {
+        document.add(new Paragraph("PhD Details:"));
+        document.add(new Paragraph("Status: " + phd.getStatus()));
+        document.add(new Paragraph("University: " + phd.getUniversityName()));
+        document.add(new Paragraph("Year of Passing: " + phd.getYearOfPassing()));
+        document.add(new Paragraph("Scopus Publications: " + phd.getScopusIndexedPublications()));
+        document.add(new Paragraph("WOS Publications: " + phd.getWosIndexedPublications()));
+    }
 
         document.close();
-        System.out.println("PDF created successfully: " + filePath);
-    }
-}
 
+    }
+
+ 
+    
+}
 

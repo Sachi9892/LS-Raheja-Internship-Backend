@@ -2,12 +2,13 @@ package com.ls_raheja.application_form.controller;
 
 import com.ls_raheja.application_form.dto.ApplicantDto;
 import com.ls_raheja.application_form.entity.Applicant;
-import com.ls_raheja.application_form.repository.ApplicantRepository;
 import com.ls_raheja.application_form.service.ApplicantService;
 import com.ls_raheja.application_form.service.FileUploadService;
+import com.ls_raheja.application_form.service.FormDataService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 
 
 import org.springframework.http.HttpStatus;
@@ -26,8 +27,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class ApplyNowController {
 
     private final FileUploadService fileUploadService;
-    private final ApplicantRepository applicantRepository;
     private final ApplicantService applicantService;
+    private final FormDataService formDataService;
 
     @PostMapping(value = "lsraheja/apply-now", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     public ResponseEntity<?> applyNow(
@@ -37,29 +38,26 @@ public class ApplyNowController {
         log.info("Received application: {}", applicantDto);
 
         try {
-            // Save the applicant data first
-            log.info("Saving applicant data: {}", applicantDto);
+
+            // 1. Save Applicant
             Applicant newApplicant = applicantService.saveApplicant(applicantDto);
             log.info("Applicant saved successfully with ID: {}", newApplicant.getApplicantId());
 
-            // If resume is provided, upload and store file location
-            if (resumeFile != null && !resumeFile.isEmpty()) {
-                log.info("Uploading resume file: {}", resumeFile.getOriginalFilename());
-                String fileName = fileUploadService.uploadFile(resumeFile);
-                log.info("Resume uploaded to: {}", fileName);
+            // 2.Save resume
+            String phone = newApplicant.getPersonalInfo().getFirstName() + " " + newApplicant.getPersonalInfo().getPhone();
 
-                newApplicant.setResumeFileLocation(fileName);
+            if (resumeFile != null && !resumeFile.isEmpty()) {
+                String fileName = fileUploadService.uploadFile(resumeFile, phone);
+                log.info("Resume uploaded to: {}", fileName);
             } else {
                 log.warn("No resume file provided.");
             }
 
-            // Save the applicant with resume file location
-            log.info("Saving applicant with resume file location...");
-            applicantRepository.save(newApplicant);
-            log.info("Application process completed.");
+            // 3. Generate PDF and DOCX files
+            formDataService.generateApplicantFiles(applicantDto , phone);
 
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(newApplicant);
+            log.info("Application process completed.");
+            return ResponseEntity.status(HttpStatus.CREATED).body("CREATED");
 
         } catch (Exception e) {
             log.error("Unexpected error: {}", e.getClass().getName(), e);

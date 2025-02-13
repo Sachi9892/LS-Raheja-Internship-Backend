@@ -2,6 +2,8 @@ package com.ls_raheja.application_form.dto;
 
 
 import lombok.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -14,6 +16,6 @@ import java.util.List;
 public class WorkExperienceDto {
 
     private Boolean isFresher;
-    private List<WorkExperienceDetailDto> list;
+    private List<WorkExperienceDetailDto> list = new ArrayList<>();
 
 }

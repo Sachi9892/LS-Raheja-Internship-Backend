@@ -16,4 +16,6 @@ public interface ApplicantMapper {
     Phd toEntity(PhdDto phdDTO);
     CompetitiveExams toEntity(CompetitiveExamsDto competitiveExamsDto);
 
+
+
 }

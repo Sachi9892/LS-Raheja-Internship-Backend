@@ -4,16 +4,17 @@ import com.ls_raheja.application_form.dto.*;
 import com.ls_raheja.application_form.entity.*;
 import com.ls_raheja.application_form.mapper.ApplicantMapper;
 import com.ls_raheja.application_form.repository.ApplicantRepository;
+
+import jakarta.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
-
-
 @Service
+@Transactional
 public class ApplicantService {
 
     private final ApplicantRepository applicantRepository;
@@ -23,6 +24,7 @@ public class ApplicantService {
         this.applicantRepository = applicantRepository;
         this.applicantMapper = applicantMapper;
     }
+
 
     public Applicant saveApplicant(ApplicantDto applicantDto) {
 
@@ -39,10 +41,10 @@ public class ApplicantService {
 
         personalInfo.setRole(personalInfoDto.getRole());
         personalInfo.setAddress(address);
-        personalInfo.setApplicant(applicant);
-        applicant.setPersonalInfo(personalInfo);
 
-    
+        personalInfo.setApplicant(applicant);
+
+        applicant.setPersonalInfo(personalInfo);
 
         // 3. Extract and map PhD details
         PhdDto phdDto = applicantDto.getPhd();
@@ -54,20 +56,29 @@ public class ApplicantService {
 
         // 4. Extract and map Work Experience
         WorkExperienceDto workExperienceDto = applicantDto.getWorkExperience();
-
         if (workExperienceDto != null) {
             boolean isFresher = workExperienceDto.getIsFresher();
             List<WorkExperienceDetailDto> experienceList = workExperienceDto.getList();
-            List<WorkExperience> workExperiences = experienceList.stream()
-                    .map(workExperience -> {
-                        WorkExperience entity = applicantMapper.toEntity(workExperience);
-                        entity.setIsFresher(isFresher);
-                        entity.setIsCurrentlyWorking(
-                                !isFresher && Boolean.TRUE.equals(workExperience.getIsCurrentlyWorking()));
-                        entity.setApplicant(applicant);
-                        return entity;
-                    })
-                     .collect(Collectors.toList());
+
+            List<WorkExperience> workExperiences;
+
+            if (isFresher) {
+                WorkExperience fresherExperience = new WorkExperience();
+                fresherExperience.setIsFresher(true);
+                fresherExperience.setApplicant(applicant);
+                workExperiences = new ArrayList<>(); 
+                workExperiences.add(fresherExperience);
+            } else {
+                workExperiences = experienceList.stream()
+                        .map(workExperience -> {
+                            WorkExperience entity = applicantMapper.toEntity(workExperience);
+                            entity.setIsFresher(false); // Not a fresher
+                            entity.setIsCurrentlyWorking(Boolean.TRUE.equals(workExperience.getIsCurrentlyWorking()));
+                            entity.setApplicant(applicant);
+                            return entity;
+                        })
+                        .collect(Collectors.toList());
+            }
             applicant.setWorkExperience(workExperiences);
         }
 
@@ -85,11 +96,13 @@ public class ApplicantService {
                         CompetitiveExams exam = new CompetitiveExams();
                         exam.setExamName(examDto.getExamName());
                         exam.setIsAppeared(examDto.getIsAppeared());
-                        exam.setYearOfPassing(examDto.getYearOfPassing());;
+                        exam.setYearOfPassing(examDto.getYearOfPassing());
+                        ;
                         exam.setApplicant(applicant);
                         return exam;
                     })
-                    .collect(Collectors.toList());;
+                    .collect(Collectors.toList());
+            ;
 
             applicant.setCompetitiveExams(competitiveExamsEntities);
         }
@@ -102,7 +115,8 @@ public class ApplicantService {
                     qualification.setApplicant(applicant);
                     return qualification;
                 })
-                .collect(Collectors.toList());;
+                .collect(Collectors.toList());
+        ;
         applicant.setQualifications(qualifications);
 
         // 7. Save the Applicant entity

@@ -1,20 +1,17 @@
 package com.ls_raheja.application_form.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 
 @Entity(name = "personal_info")
 @Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class PersonalInfo implements Serializable {
 
     @Id
@@ -30,7 +27,9 @@ public class PersonalInfo implements Serializable {
     @Embedded
     private Address address;
 
-    @OneToOne(mappedBy = "personalInfo")
+    @OneToOne(mappedBy = "personalInfo" , cascade = CascadeType.ALL)
+    @JoinColumn(name = "applicant_id")
+    @JsonBackReference
     private Applicant applicant;
 
     private String firstName;

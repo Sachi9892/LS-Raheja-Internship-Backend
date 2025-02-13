@@ -2,6 +2,7 @@ package com.ls_raheja.application_form.dto;
 
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -15,9 +16,9 @@ public class ApplicantDto {
 
     private AddressDto address;
 
-    private List<QualificationDto> qualifications;
+    private List<QualificationDto> qualifications = new ArrayList<>();
 
-    private List<CompetitiveExamsDto> competitiveExams;
+    private List<CompetitiveExamsDto> competitiveExams = new ArrayList<>();
 
     private WorkExperienceDto workExperience;
 

@@ -5,6 +5,8 @@ import lombok.Data;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 
 @Entity
 @Data
@@ -17,7 +19,9 @@ public class Phd implements Serializable {
     @Enumerated(EnumType.STRING)
     private PhdStatus status;
 
-    @OneToOne(mappedBy = "phd")
+    @OneToOne(mappedBy = "phd" , cascade = CascadeType.ALL)
+    @JoinColumn(name = "applicant_id")
+    @JsonBackReference
     private Applicant applicant;
 
     @Column(nullable = true)

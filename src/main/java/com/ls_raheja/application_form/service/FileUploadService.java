@@ -17,36 +17,36 @@ public class FileUploadService {
 
 
     @SuppressWarnings("null")
-    public String uploadFile(MultipartFile file) throws IllegalStateException, IOException {
+    public String uploadFile(MultipartFile file , String applicantName) throws IllegalStateException, IOException {
 
+ 
         // Validate file type
         if (!file.getContentType().equalsIgnoreCase("application/pdf")) {
             throw new FileUploadExcpetion("Invalid file type. Only PDF files are allowed.");
         }
 
-        // Validate file size (5 MB = 5 * 1024 * 1024 bytes)
+        // Validate file size (5 MB)
         if (file.getSize() > AppConstants.RESUME_MAX_SIZE) {
             throw new FileUploadExcpetion("File size exceeds the maximum limit of 5 MB.");
         }
 
-        // Ensure the parent directory (Resumes) exists
-        File uploadDir = new File(AppConstants.UPLOAD_DIR);
+        // Create a new folder based on submission date
+        String submissionFolder = AppConstants.UPLOAD_DIR + File.separator;
+        File uploadDir = new File(submissionFolder);
         if (!uploadDir.exists() && !uploadDir.mkdirs()) {
-            throw new IOException("Failed to create directory: " + AppConstants.UPLOAD_DIR);
+            throw new IOException("Failed to create directory: " + submissionFolder);
         }
 
-        // Generate a unique file name to prevent overwriting
+        // Save the resume inside the submission folder
         String fileName = file.getOriginalFilename();
-        String filePath = AppConstants.UPLOAD_DIR + File.separator + fileName;
+        String filePath = submissionFolder + File.separator + fileName;
 
-        log.info("Saving file to: {}", filePath);
+        log.info("Saving resume file to: {}", filePath);
 
-        // Save the file
         File dest = new File(filePath);
         file.transferTo(dest);
 
         return filePath; // Returning the stored file path
-
     }
 
 }

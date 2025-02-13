@@ -68,4 +68,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     }
 
+
+    @ExceptionHandler(ApplicantNotFoundException.class)
+    public ResponseEntity<ErrorResponseDto> 
+    applicantNotFoundExp(ApplicantNotFoundException ex , WebRequest req) {
+
+        ErrorResponseDto errorResponse = new ErrorResponseDto(
+                HttpStatus.NOT_FOUND.value(),
+                ex.getMessage(),
+                req.getDescription(false));
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+        
+    }
+
 }
