@@ -99,7 +99,7 @@ public class WordGeneratorService {
         addKeyValue(document, "Scopus ID", String.valueOf(phd.getScopusId()));
         addKeyValue(document, "WOS Publications", String.valueOf(phd.getWosIndexedPublications()));
         addKeyValue(document, "WOS ID", String.valueOf(phd.getWosId()));
-        addKeyValue(document, "Conference Presentation", String.valueOf(phd.getPresentedInConference()));
+        addKeyValue(document, "Conference Presentation ? ", String.valueOf(phd.getPresentedInConference()));
 
         // Write and close document
         document.write(out);

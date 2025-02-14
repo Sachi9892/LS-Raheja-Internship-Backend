@@ -16,23 +16,24 @@ public class FormDataService {
     
     public void generateApplicantFiles(ApplicantDto applicantDto, String applicantName) throws IOException {
 
-        // Define the folder where files will be stored
+        // Define the applicant's directory
         String submissionFolder = AppConstants.UPLOAD_DIR + File.separator + applicantName;
-
-        // Ensure directory exists
         File folder = new File(submissionFolder);
+
         if (!folder.exists() && !folder.mkdirs()) {
             throw new IOException("Failed to create directory: " + submissionFolder);
         }
 
-        String pdfPath = AppConstants.UPLOAD_DIR + applicantName + ".pdf";
-        String docxPath = AppConstants.UPLOAD_DIR + applicantName + ".docx";
+        // Correct paths to include the submissionFolder
+        String pdfPath = submissionFolder + File.separator + applicantName + ".pdf";
+        String docxPath = submissionFolder + File.separator + applicantName + ".docx";
 
         PDFGenerateService.generatePDF(applicantDto, pdfPath);
         WordGeneratorService.generateWord(applicantDto, docxPath);
 
-        log.info("Pdf File saved successfully: {} ", pdfPath);
-        log.info("Docx File saved successfully: {} ", docxPath);
+        log.info("Pdf File saved successfully: {}", pdfPath);
+        log.info("Docx File saved successfully: {}", docxPath);
+
         
     }
 }

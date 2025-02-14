@@ -45,7 +45,8 @@ public class PDFGenerateService {
     document.add(new Paragraph("Qualifications:"));
     for (QualificationDto qualification : applicant.getQualifications()) {
         document.add(new Paragraph(qualification.getDegree() + " in " + qualification.getDegreeName() + 
-            " from " + qualification.getUniversityName() + " (" + qualification.getYearOfPassing() + ")"));
+            " from " + qualification.getUniversityName() + " (" + qualification.getYearOfPassing() + ")"
+            ));
     }
 
     // 🔹 Competitive Exams
@@ -61,9 +62,13 @@ public class PDFGenerateService {
     if (workExperience.getIsFresher()) {
         document.add(new Paragraph("Fresher"));
     } else {
-        for (WorkExperienceDetailDto work : workExperience.getList()) {
-            document.add(new Paragraph(work.getJobTitle() + " at " + work.getOrganizationName() + 
-                " (" + work.getFromDate() + " - " + (work.getToDate() != null ? work.getToDate() : "Present") + ")"));
+       for (WorkExperienceDetailDto work : workExperience.getList()) {
+            document.add(new Paragraph(
+                work.getJobTitle() + " at " + work.getOrganizationName() + 
+                " (" + work.getFromDate() + " - " + (work.getToDate() != null ? work.getToDate() : "Present") + ")" +
+                " Salary: " + work.getCurrentSalary() + 
+                " Notice Period: " + work.getNoticePeriod()
+            ));
         }
     }
 
@@ -75,7 +80,10 @@ public class PDFGenerateService {
         document.add(new Paragraph("University: " + phd.getUniversityName()));
         document.add(new Paragraph("Year of Passing: " + phd.getYearOfPassing()));
         document.add(new Paragraph("Scopus Publications: " + phd.getScopusIndexedPublications()));
+        document.add(new Paragraph("Scopus ID: " + phd.getScopusId()));
         document.add(new Paragraph("WOS Publications: " + phd.getWosIndexedPublications()));
+        document.add(new Paragraph("WOS ID: " + phd.getWosId()));
+        document.add(new Paragraph("Conference Presentation ? " + String.valueOf(phd.getPresentedInConference())));
     }
 
         document.close();

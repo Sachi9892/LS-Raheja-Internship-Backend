@@ -44,17 +44,17 @@ public class ApplyNowController {
             log.info("Applicant saved successfully with ID: {}", newApplicant.getApplicantId());
 
             // 2.Save resume
-            String phone = newApplicant.getPersonalInfo().getFirstName() + " " + newApplicant.getPersonalInfo().getPhone();
+            String applicantName = newApplicant.getPersonalInfo().getFirstName() + " " + newApplicant.getPersonalInfo().getLastName();
 
             if (resumeFile != null && !resumeFile.isEmpty()) {
-                String fileName = fileUploadService.uploadFile(resumeFile, phone);
+                String fileName = fileUploadService.uploadFile(resumeFile, applicantName);
                 log.info("Resume uploaded to: {}", fileName);
             } else {
                 log.warn("No resume file provided.");
             }
 
             // 3. Generate PDF and DOCX files
-            formDataService.generateApplicantFiles(applicantDto , phone);
+            formDataService.generateApplicantFiles(applicantDto , applicantName);
 
             log.info("Application process completed.");
             return ResponseEntity.status(HttpStatus.CREATED).body("CREATED");

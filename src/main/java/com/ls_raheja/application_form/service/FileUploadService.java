@@ -2,6 +2,9 @@ package com.ls_raheja.application_form.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,11 +18,9 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class FileUploadService {
 
-
     @SuppressWarnings("null")
-    public String uploadFile(MultipartFile file , String applicantName) throws IllegalStateException, IOException {
+    public String uploadFile(MultipartFile file, String applicantName) throws IllegalStateException, IOException {
 
- 
         // Validate file type
         if (!file.getContentType().equalsIgnoreCase("application/pdf")) {
             throw new FileUploadExcpetion("Invalid file type. Only PDF files are allowed.");
@@ -31,22 +32,21 @@ public class FileUploadService {
         }
 
         // Create a new folder based on submission date
-        String submissionFolder = AppConstants.UPLOAD_DIR + File.separator;
+        String submissionFolder = AppConstants.UPLOAD_DIR + File.separator + applicantName + File.separator;
         File uploadDir = new File(submissionFolder);
+
         if (!uploadDir.exists() && !uploadDir.mkdirs()) {
             throw new IOException("Failed to create directory: " + submissionFolder);
         }
 
-        // Save the resume inside the submission folder
         String fileName = file.getOriginalFilename();
-        String filePath = submissionFolder + File.separator + fileName;
+        String filePath = submissionFolder + fileName; // Now includes applicant's directory
 
-        log.info("Saving resume file to: {}", filePath);
-
-        File dest = new File(filePath);
-        file.transferTo(dest);
-
-        return filePath; // Returning the stored file path
+        // Save the file
+        Files.copy(file.getInputStream(), Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
+        
+        return filePath;
+        
     }
 
 }
