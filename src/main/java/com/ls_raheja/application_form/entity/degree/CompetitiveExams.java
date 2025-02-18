@@ -1,0 +1,41 @@
+package com.ls_raheja.application_form.entity.degree;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+@Entity
+@Data
+@NoArgsConstructor
+public class CompetitiveExams implements Serializable {
+
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long examId;
+
+    @Column(nullable = true)
+    private String examName; // Example: NET, SET, GATE
+
+    @Column(nullable = true , columnDefinition = "BOOLEAN")
+    private Boolean isAppeared; // Whether the applicant appeared for the exam
+
+    @Column(nullable = true)
+    private Integer yearOfPassing;
+
+    @ManyToOne
+    @JoinColumn(name = "applicant_id", referencedColumnName = "applicantId")
+    @JsonBackReference
+    private Applicant applicant;
+
+}

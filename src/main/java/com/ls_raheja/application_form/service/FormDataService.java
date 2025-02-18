@@ -6,7 +6,7 @@ import java.io.IOException;
 import org.springframework.stereotype.Service;
 
 import com.ls_raheja.application_form.constants.AppConstants;
-import com.ls_raheja.application_form.dto.ApplicantDto;
+import com.ls_raheja.application_form.dto.degree_dto.ApplicantDto;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,13 +26,13 @@ public class FormDataService {
 
         // Correct paths to include the submissionFolder
         String pdfPath = submissionFolder + File.separator + applicantName + ".pdf";
-        String docxPath = submissionFolder + File.separator + applicantName + ".docx";
+        String excelPath = submissionFolder + File.separator + applicantName + ".xlsx";
 
         PDFGenerateService.generatePDF(applicantDto, pdfPath);
-        WordGeneratorService.generateWord(applicantDto, docxPath);
+        ExcelFileService.generateExcel(applicantDto, excelPath);
 
         log.info("Pdf File saved successfully: {}", pdfPath);
-        log.info("Docx File saved successfully: {}", docxPath);
+        log.info("Excel File saved successfully: {}", excelPath);
 
         
     }
