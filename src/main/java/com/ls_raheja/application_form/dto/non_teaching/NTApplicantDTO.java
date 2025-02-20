@@ -11,5 +11,6 @@ public class NTApplicantDTO {
     private List<NTQualificationInfoDTO> qualificationInfo;
     private NTAdditionalInfoDTO addInfo;
     private List<NTWorkExpDetailsDTO> workExp;
+    private Boolean isFresher;
     
 }

@@ -1,15 +1,4 @@
-package com.ls_raheja.application_form.controller.degree;
-
-import com.ls_raheja.application_form.dto.degree_dto.ApplicantDto;
-import com.ls_raheja.application_form.entity.degree.Applicant;
-import com.ls_raheja.application_form.service.ApplicantService;
-import com.ls_raheja.application_form.service.FileUploadService;
-import com.ls_raheja.application_form.service.FormDataService;
-
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
-
+package com.ls_raheja.application_form.controller.junior;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,17 +9,27 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
-@Controller
-@CrossOrigin("*")
-@Slf4j
-@AllArgsConstructor
-public class ApplyNowController {
+import com.ls_raheja.application_form.dto.degree_dto.ApplicantDto;
+import com.ls_raheja.application_form.entity.degree.Applicant;
+import com.ls_raheja.application_form.service.ApplicantService;
+import com.ls_raheja.application_form.service.FileUploadService;
+import com.ls_raheja.application_form.service.FormDataService;
 
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@Controller
+@AllArgsConstructor
+@Slf4j
+@CrossOrigin("*")
+public class JuniorApplyNowController {
+    
     private final FileUploadService fileUploadService;
     private final ApplicantService applicantService;
     private final FormDataService formDataService;
 
-    @PostMapping(value = "lsraheja/apply-now", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    @PostMapping(value = "lsraheja/junior/apply-now", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    
     public ResponseEntity<?> applyNow(
             @RequestPart("applicant") ApplicantDto applicantDto,
             @RequestPart("resume") MultipartFile resumeFile) {
@@ -66,5 +65,5 @@ public class ApplyNowController {
         }
 
     }
-
+    
 }

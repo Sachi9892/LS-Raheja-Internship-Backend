@@ -1,5 +1,7 @@
 package com.ls_raheja.application_form.dto.non_teaching;
 
+
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +13,9 @@ public class NTAdditionalInfoDTO {
     private Integer mts;
     private String motherTounge;
     private String otherLanguage;
-    private Integer joinDate;
-    private Double exceptedSalary;
+
+    private String joinDate;
+    
+    private Integer expectedSalary;
     private String comment;
 }

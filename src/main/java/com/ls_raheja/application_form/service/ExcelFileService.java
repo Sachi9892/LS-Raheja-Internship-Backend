@@ -97,6 +97,9 @@ public class ExcelFileService {
         } else {
             for (WorkExperienceDetailDto work : workExperience.getList()) {
                 createRow(sheet, rowNum++, work.getJobTitle(), work.getOrganizationName() + " (" + work.getFromDate() + " - " + (work.getToDate() != null ? work.getToDate() : "Present") + ")");
+                createRow(sheet , rowNum++ , "Salary" , work.getCurrentSalary());
+                createRow(sheet, rowNum++, "Notice Period",String.valueOf(work.getNoticePeriod()));
+
             }
         }
 

@@ -1,7 +1,5 @@
 package com.ls_raheja.application_form.dto.non_teaching;
 
-import java.time.LocalDate;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,6 +14,6 @@ public class NTPersonalInfoDTO {
     private String email;
     private String mobileNumber;
     private String address;
-    private LocalDate dob;
+    private String dob;
     
 }

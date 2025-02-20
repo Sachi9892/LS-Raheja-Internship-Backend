@@ -1,5 +1,7 @@
 package com.ls_raheja.application_form.entity.non_teaching;
 
+
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,8 +24,10 @@ public class NTAddtionalInfo {
     private Integer mts;
     private String motherTounge;
     private String otherLanguage;
-    private Integer joinDate;
-    private Double exceptedSalary;
-    private String comment;
+
+    private String joinDate;
     
+    private Integer expectedSalary;
+    private String comment;
+
 }

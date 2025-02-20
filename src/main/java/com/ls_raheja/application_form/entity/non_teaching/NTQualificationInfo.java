@@ -1,6 +1,8 @@
 package com.ls_raheja.application_form.entity.non_teaching;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -27,12 +29,14 @@ public class NTQualificationInfo {
     @Enumerated(EnumType.STRING)
     private NTDegree degree;
 
+    private String universityName;
     private Double marks;
     private String grade;
     private String yearOfPassing;
 
     @ManyToOne
-    @JoinColumn(name = "nt_applicant_id")
+    @JoinColumn(name = "nt_applicant_id", nullable = false)
+    @JsonBackReference
     private NonTeachingApplicant ntApplicant;
 
 }

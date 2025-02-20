@@ -1,14 +1,12 @@
 package com.ls_raheja.application_form.entity.non_teaching;
 
-import java.time.LocalDate;
+
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,9 +26,8 @@ public class NTPersonalInfo {
     private String email;
     private String mobileNumber;
 
-    private String Address;
+    private String address;
 
-    @Temporal(TemporalType.DATE)
-    private LocalDate dob;
+    private String dob;
 
 }

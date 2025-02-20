@@ -1,39 +1,39 @@
-package com.ls_raheja.application_form.controller.non_teaching;
+package com.ls_raheja.application_form.controller.degree;
+
+import com.ls_raheja.application_form.dto.degree_dto.ApplicantDto;
+import com.ls_raheja.application_form.entity.degree.Applicant;
+import com.ls_raheja.application_form.service.ApplicantService;
+import com.ls_raheja.application_form.service.FileUploadService;
+import com.ls_raheja.application_form.service.FormDataService;
+
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-
-
-import com.ls_raheja.application_form.dto.non_teaching.NTApplicantDTO;
-
-import com.ls_raheja.application_form.entity.non_teaching.NonTeachingApplicant;
-import com.ls_raheja.application_form.service.FileUploadService;
-import com.ls_raheja.application_form.service.non_teaching_service.NTFormDataService;
-import com.ls_raheja.application_form.service.non_teaching_service.NonTeachingApplicantService;
-
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
-@AllArgsConstructor
+@CrossOrigin("*")
 @Slf4j
-public class NTApplyController {
+@AllArgsConstructor
+public class DegreeApplyNowController {
 
-    private final NonTeachingApplicantService nonTeachingService;
     private final FileUploadService fileUploadService;
-    private final NTFormDataService formDataService;
+    private final ApplicantService applicantService;
+    private final FormDataService formDataService;
 
-    @CrossOrigin(origins = "http://localhost:5173")
-    @PostMapping(value = "lsraheja/non-teaching/apply-now", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    @PostMapping(value = "lsraheja/degree/apply-now", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    
     public ResponseEntity<?> applyNow(
-            @RequestPart("applicant") NTApplicantDTO applicantDto,
+            @RequestPart("applicant") ApplicantDto applicantDto,
             @RequestPart("resume") MultipartFile resumeFile) {
 
         log.info("Received application: {}", applicantDto);
@@ -41,8 +41,8 @@ public class NTApplyController {
         try {
 
             // 1. Save Applicant
-            NonTeachingApplicant newApplicant = nonTeachingService.saveNonTeachingApplicant(applicantDto);
-            log.info("New NON Teaching Applicant saved with ID: ", newApplicant.getId());
+            Applicant newApplicant = applicantService.saveApplicant(applicantDto);
+            log.info("Applicant saved successfully with ID: {}", newApplicant.getApplicantId());
 
             // 2.Save resume
             String applicantName = newApplicant.getPersonalInfo().getFirstName() + " " + newApplicant.getPersonalInfo().getLastName();
@@ -54,10 +54,10 @@ public class NTApplyController {
                 log.warn("No resume file provided.");
             }
 
-            //3. Generate PDF and Excel files
+            // 3. Generate PDF and Excel files
             formDataService.generateApplicantFiles(applicantDto , applicantName);
 
-            log.info("Non teaching Application process completed.");
+            log.info("Application process completed.");
             return ResponseEntity.status(HttpStatus.CREATED).body("CREATED");
 
         } catch (Exception e) {
